@@ -4,7 +4,7 @@
   "description": "Boring API to redeem rewards for Tokyo Catch",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "express",
@@ -15,5 +15,15 @@
   "dependencies": {
     "express": "^4.17.3",
     "node-cache": "^5.1.2"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "supertest": "^6.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
