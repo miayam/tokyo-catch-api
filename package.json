@@ -1,0 +1,19 @@
+{
+  "name": "tokyo-catch-api",
+  "version": "1.0.0",
+  "description": "Boring API to redeem rewards for Tokyo Catch",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "node-cache"
+  ],
+  "author": "Muhammad D. R.",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "node-cache": "^5.1.2"
+  }
+}
