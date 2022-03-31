@@ -17,8 +17,8 @@ router.get('/', async (req, res) => {
   const noDate = !hasDate; // `query.at` is undefined or null
   const invalidDate = noDate || !isValidDate(iso8061Format);
   const validDate = hasDate && isValidDate(iso8061Format);
-  const sameDate = iso8061Format === cache.get(userId);
-  const differentDate = iso8061Format !== cache.get(userId);
+  const sameDate = iso8061Format === cache.get(userId).replace(`${userId}-at-`, '');
+  const differentDate = iso8061Format !== cache.get(userId).replace(`${userId}-at-`, '');
 
   // Clarify the logic.
   const noCacheButHasValidDate = noCache && validDate;
@@ -36,9 +36,10 @@ router.get('/', async (req, res) => {
   // Need to renew rewards for certain `userId` or just create new one.
   if (noCacheButHasValidDate || hasCacheWithDifferentValidDate) {
     console.log('Create new rewards...');
-    const data = createRewardsFor7Days(isoString);
-    cache.set(userId, isoString);
-    cache.set(isoString, data);
+    const data = createRewardsFor7Days(iso8061Format);
+    const key = `${userId}-at-${iso8061Format}`; 
+    cache.set(userId, key);
+    cache.set(key, data);
     res.json({ data });
   }
 
