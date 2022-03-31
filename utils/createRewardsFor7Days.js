@@ -1,13 +1,13 @@
 const isValidDate = require('./isValidDate');
 
 const createRewardsFor7Days = (isoString) => {
-  const date = new Date(isoString);
-
-  if (!isValidDate(date)) {
+  if (!isValidDate(isoString)) {
     return [];
   }
 
-  // Start at 00:00 in midnight.
+  const date = new Date(isoString);
+
+  // Start at midnight (00:00).
   date.setUTCHours(0);
 
   const data = [...Array(7)]
