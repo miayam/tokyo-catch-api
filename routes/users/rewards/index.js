@@ -17,16 +17,16 @@ router.get('/', async (req, res) => {
   const noDate = !hasDate; // `query.at` is undefined or null
   const invalidDate = noDate || !isValidDate(new Date(isoString));
   const validDate = hasDate && isValidDate(new Date(isoString));
-  const sameDate = validDate && isoString === cache.get(userId);
-  const differentDate = validDate && isoString !== cache.get(userId);
+  const sameDate = isoString === cache.get(userId);
+  const differentDate = isoString !== cache.get(userId);
 
-  if ((hasCache && invalidDate) || (hasCache && sameDate)) {
+  if ((hasCache && invalidDate) || (hasCache && validDate && sameDate)) {
     console.log('Get rewards from cache...');
     const key = cache.get(userId);
     res.json({ data: cache.get(key) });
   }
   
-  if ((noCache && validDate) || (hasCache && differentDate)) {
+  if ((noCache && validDate) || (hasCache && validDate && differentDate)) {
     console.log('Create new rewards...');
     const data = createRewardsFor7Days(isoString);
     cache.set(userId, isoString);
