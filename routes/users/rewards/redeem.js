@@ -25,8 +25,8 @@ router.patch('/', async (req, res) => {
   const availableTime = new Date(data[index].availableAt).getTime();
   const expiredTime = new Date(data[index].expiresAt).getTime();
   const nowTime = new Date().getTime();
-  const canBeRedeemed = nowTime >= availableTime && nowTime <= expiredTime;
-  const cannotBeReedeemed = !canBeRedeemed;
+  const notAvailableYet = nowTime < availableTime;
+  const hasExpired = nowTime > expiredTime;
   
   if (hasCacheAndRewardFound && canBeRedeemed) {
     const newData = [...data];
@@ -42,7 +42,15 @@ router.patch('/', async (req, res) => {
     res.json({ data: newData[index] });
   }
 
-  if (hasCacheAndRewardFound && cannotBeReedeemed) {
+  if (hasCacheAndRewardFound && notAvailableYet) {
+    res.json({
+      error: {
+        message: "This reward is not available yet"
+      }
+    });
+  }
+
+  if (hasCacheAndRewardFound && hasExpired) {
     res.json({
       error: {
         message: "This reward is already expired"
