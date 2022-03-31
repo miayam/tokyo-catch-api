@@ -23,11 +23,11 @@ router.get('/', async (req, res) => {
   // Clarify the logic.
   const noCacheButHasValidDate = noCache && validDate;
   const noCacheAndHasInvalidDate = noCache && invalidDate;
-  const hasCacheButHasInvalidDate = hasCache && invalidDate
+  const hasCacheWithInvalidDate = hasCache && invalidDate
   const hasCacheWithSameValidDate = hasCache && validDate && sameDate
   const hasCacheWithDifferentValidDate = hasCache && validDate && differentDate
 
-  if (hasCacheButHasInvalidDate || hasCacheWithSameValidDate) {
+  if (hasCacheWithInvalidDate || hasCacheWithSameValidDate) {
     console.log('Get rewards from cache...');
     const key = cache.get(userId);
     res.json({ data: cache.get(key) });
