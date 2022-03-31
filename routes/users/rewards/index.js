@@ -19,20 +19,22 @@ router.get('/', async (req, res) => {
   const validDate = hasDate && isValidDate(isoString);
   const sameDate = isoString === cache.get(userId);
   const differentDate = isoString !== cache.get(userId);
+
+  // Clarify the logic.
   const noCacheButHasValidDate = noCache && validDate;
   const noCacheAndHasInvalidDate = noCache && invalidDate;
-  const hasCacheButInvalidDate = hasCache && invalidDate
+  const hasCacheButHasInvalidDate = hasCache && invalidDate
   const hasCacheWithSameValidDate = hasCache && validDate && sameDate
   const hasCacheWithDifferentValidDate = hasCache && validDate && differentDate
 
-  if ((hasCacheButInvalidDate) || (hasCacheWithSameValidDate)) {
+  if (hasCacheButHasInvalidDate || hasCacheWithSameValidDate) {
     console.log('Get rewards from cache...');
     const key = cache.get(userId);
     res.json({ data: cache.get(key) });
   }
   
   // Need to renew rewards for certain `userId` or just create new one.
-  if ((noCacheButHasValidDate) || (hasCacheWithDifferentValidDate)) {
+  if (noCacheButHasValidDate || hasCacheWithDifferentValidDate) {
     console.log('Create new rewards...');
     const data = createRewardsFor7Days(isoString);
     cache.set(userId, isoString);
