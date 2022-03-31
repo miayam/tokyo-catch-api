@@ -6,19 +6,19 @@ const isValidDate = require('../../../utils/isValidDate');
 router.get('/', async (req, res) => {
   // example: ?at=2020-03-19T12:00:00Z
   const { cache, query, userId } = req;
-  const isoString = query.at;
+  const iso8061Format = query.at;
 
   // To check cache
   const hasCache = cache.has(userId);
   const noCache = !hasCache;
 
   // To check date
-  const hasDate = Boolean(isoString);
+  const hasDate = Boolean(iso8061Format);
   const noDate = !hasDate; // `query.at` is undefined or null
-  const invalidDate = noDate || !isValidDate(isoString);
-  const validDate = hasDate && isValidDate(isoString);
-  const sameDate = isoString === cache.get(userId);
-  const differentDate = isoString !== cache.get(userId);
+  const invalidDate = noDate || !isValidDate(iso8061Format);
+  const validDate = hasDate && isValidDate(iso8061Format);
+  const sameDate = iso8061Format === cache.get(userId);
+  const differentDate = iso8061Format !== cache.get(userId);
 
   // Clarify the logic.
   const noCacheButHasValidDate = noCache && validDate;
