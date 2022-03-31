@@ -7,8 +7,8 @@ const createRewardsFor7Days = (isoString) => {
 
   const date = new Date(isoString);
 
-  // Start at midnight (00:00).
-  date.setUTCHours(0);
+  // Start at midnight (00:00:00.000).
+  date.setUTCHours(0, 0, 0, 0);
 
   const data = [...Array(7)]
     .map(() => {
