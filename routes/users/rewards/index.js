@@ -1,21 +1,45 @@
 const router = require('express').Router();
 const redeem = require('./redeem');
 const createRewardsFor7Days = require('../../../utils/createRewardsFor7Days');
+const isValidDate = require('../../../utils/isValidDate');
 
 router.get('/', async (req, res) => {
   // example: ?at=2020-03-19T12:00:00Z
-  const { cache, query } = req;
+  const { cache, query, userId } = req;
   const isoString = query.at;
-  const key = `${req.userId}-at-${isoString}`;
 
-  if (cache.has(key)) {
+  // To check cache
+  const hasCache = cache.has(userId);
+  const noCache = !hasCache;
+
+  // To check date
+  const hasDate = Boolean(isoString);
+  const noDate = !hasDate; // `query.at` is undefined or null
+  const invalidDate = noDate || !isValidDate(new Date(isoString));
+  const validDate = hasDate && isValidDate(new Date(isoString));
+  const sameDate = validDate && isoString === cache.get(userId);
+  const differentDate = validDate && isoString !== cache.get(userId);
+
+  if ((hasCache && invalidDate) || (hasCache && sameDate)) {
     console.log('Get rewards from cache...');
+    const key = cache.get(userId);
     res.json({ data: cache.get(key) });
-  } else {
+  }
+  
+  if ((noCache && validDate) || (hasCache && differentDate)) {
     console.log('Create new rewards...');
     const data = createRewardsFor7Days(isoString);
-    cache.set(key, data);
+    cache.set(userId, isoString);
+    cache.set(isoString, data);
     res.json({ data });
+  }
+
+  if (noCache && invalidDate) {
+    res.json({
+      error: {
+        message: "You don't have any rewards"
+      }
+    });
   }
 });
 

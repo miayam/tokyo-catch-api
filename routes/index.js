@@ -1,5 +1,13 @@
 const router = require('express').Router();
+const users = require('./users');
+const NodeCache = require('node-cache');
 
-router.use('/users', require('./users'));
+// stdTTL is the default time-to-live for each cache entry
+const cache = new NodeCache({ stdTTL: 0 });
+
+router.use('/users', async (req, _, next) => {
+  req.cache = cache;
+  next();
+}, users);
 
 module.exports = router;

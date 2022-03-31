@@ -1,5 +1,11 @@
+const isValidDate = require('./isValidDate');
+
 const createRewardsFor7Days = (isoString) => {
   const date = new Date(isoString);
+
+  if (!isValidDate(date)) {
+    return [];
+  }
 
   // Start at 00:00 in midnight.
   date.setUTCHours(0);
@@ -9,7 +15,7 @@ const createRewardsFor7Days = (isoString) => {
       return {
         availableAt: date.toISOString(),
         redeemedAt: null,
-        expiredAt: new Date(
+        expiresAt: new Date(
           date.setUTCDate(
             date.getUTCDate() + 1
           )
