@@ -96,8 +96,8 @@ describe('Users create new rewards or get rewards from cache', () => {
 
   test(`
     users get weekly rewards (7 days) when they GET /users/:userId/rewards
-    stored in cache as long as the query param ?at= is the same as before or
-    query param ?at= undefined 
+    from cache as long as the query param ?at= is the same as the first request
+    or there's no query param ?at=
   `, async () => {
     // Arrange
     const iso8061Format = '2020-03-20T12:00:00Z';
@@ -110,27 +110,27 @@ describe('Users create new rewards or get rewards from cache', () => {
       .expect(200)
       .expect((res) => {
         expect(res.body.data.length).toBe(7); 
-        expect(res.get('from-cache')).toBe('no'); // Create new rewards
+        expect(res.get('from-cache')).toBe('no');
       });
 
-    // Request endpoint for the 2nd time with the same query param ?at= expecting data stored in cache.
+    // Request endpoint for the 2nd time with the same query param ?at= and get rewards from cache.
     await request(app)
       .get(rewardsURL) // ?at is provided
       .expect("Content-Type", /json/)
       .expect(200)
       .expect((res) => {
         expect(res.body.data.length).toBe(7);
-        expect(res.get('from-cache')).toBe('yes'); // Get rewards from cache
+        expect(res.get('from-cache')).toBe('yes');
       });
 
-    // Request endpoint without query param ?at= for the 3rd time expecting data stored in cache.
+    // Request endpoint for the 3rd time without query param ?at= and get rewards from cache.
     await request(app)
       .get('/users/1/rewards') // ?at is not provided
       .expect("Content-Type", /json/)
       .expect(200)
       .expect((res) => {
         expect(res.body.data.length).toBe(7);
-        expect(res.get('from-cache')).toBe('yes'); // Get rewards from cache
+        expect(res.get('from-cache')).toBe('yes');
       });
   });
 });
