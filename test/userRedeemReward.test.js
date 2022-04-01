@@ -44,7 +44,7 @@ describe('User redeems a reward', () => {
     const redeemId = reward.availableAt;
     const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
 
-    // Redeem the first reward because it was created a couple of seconds ago
+    // User can redeem a reward because it was created a couple of seconds ago
     // and 100% available to be redeemed and 100% not expired.
     await request(app)
       .patch(redeemUrl)
