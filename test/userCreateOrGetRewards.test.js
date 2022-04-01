@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 
-describe('User get rewards', () => {
+describe('User create new rewards or get rewards from cache', () => {
   it('gets /users/:userId', (done) => {
     request(app)
       .get('/users/1')
