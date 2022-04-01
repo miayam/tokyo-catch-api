@@ -35,21 +35,21 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    user gets rewards for 7 days when accessing /users/:userId/rewards
+    user gets weekly rewards (7 days) when accessing /users/:userId/rewards
     for the first time with valid query param ?at=
   `, async () => {
     // Arrange
-    const iso8061Format = '2020-03-19T12:00:00Z';
+    const iso8061Format = '2020-03-19T12:00:00Z'; // Thursday
     const url = `/users/1/rewards?at=${iso8061Format}`;
     const expectedDataForm = {
-      "data": [
-        { "availableAt": "2020-03-15T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-16T00:00:00Z" },
-        { "availableAt": "2020-03-16T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-17T00:00:00Z" },
-        { "availableAt": "2020-03-17T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-18T00:00:00Z" },
-        { "availableAt": "2020-03-18T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-19T00:00:00Z" },
-        { "availableAt": "2020-03-19T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-20T00:00:00Z" },
-        { "availableAt": "2020-03-20T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-21T00:00:00Z" },
-        { "availableAt": "2020-03-21T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-22T00:00:00Z" }
+      data: [
+        { availableAt: "2020-03-15T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-16T00:00:00Z" }, // Sunday
+        { availableAt: "2020-03-16T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-17T00:00:00Z" }, // Monday
+        { availableAt: "2020-03-17T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-18T00:00:00Z" }, // Tuesday
+        { availableAt: "2020-03-18T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-19T00:00:00Z" }, // Wednesday
+        { availableAt: "2020-03-19T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-20T00:00:00Z" }, // Thursday
+        { availableAt: "2020-03-20T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-21T00:00:00Z" }, // Friday
+        { availableAt: "2020-03-21T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-22T00:00:00Z" }  // Saturday
       ]
     }; 
 
@@ -64,10 +64,11 @@ describe('User create new rewards or get rewards from cache', () => {
 
     const { data } = rewardsResponse.body;
 
+    expect(JSON.stringify(data)).toBe(JSON.stringify(expectedDataForm));
   });
 
   test(`
-    user gets rewards for 7 days when accessing /users/:userId/rewards
+    user gets weekly rewards (7 days) when accessing /users/:userId/rewards
     without query param ?at for the second time because it has been
     cached by server
   `, async () => {

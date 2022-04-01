@@ -20,8 +20,8 @@ describe("isValidDate.js", () => {
   it('should return true when timestamp is passed down', () => {
     // Arrange
     const now = new Date();
-    const nowTime = now.getTime();
+    const timestamp = now.getTime();
 
-    expect(isValidDate(nowTime)).toBe(true);
+    expect(isValidDate(timestamp)).toBe(true);
   });
 });

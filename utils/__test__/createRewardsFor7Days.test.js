@@ -15,24 +15,27 @@ describe('createRewardsFor7Days', () => {
 
   it("should start at midnight if ISO 8061 format passed down", () => {
     // Arrange
-    const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM GMT
+    const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM (UTC)
+    const expectedValue = '2020-03-19T00:00:00Z'; // 12 AM (UTC)
     const atMidnight = 0; // at midnight
 
     // Act
     const data = createRewardsFor7Days(iso8061Format);
-    const firstReward = data[0];
-    const firstRewardAvailableDate = new Date(firstReward.availableAt);
-    const hour = firstRewardAvailableDate.getUTCHours();
+    const index = data.findIndex(reward => reward.availableAt === expectedValue);
+    const myReward = data[index];
+    const myRewardAvailableDate = new Date(myReward.availableAt);
+    const hour = myRewardAvailableDate.getUTCHours();
 
     // Assert
+    expect(myReward.availableAt).toBe(expectedValue);
     expect(hour).toBe(atMidnight);
   });
 
   it("should start at midnight but without miliseconds if ISO 8061 format passed down", () => {
     // Arrange
-    const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM GMT
-    const expectedValue = '2020-03-19T00:00:00Z'; // 12 AM GMT
-    const notExpectedValue = '2020-03-19T00:00:00.000Z'; // 12 AM GMT with miliseconds
+    const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM (UTC)
+    const expectedValue = '2020-03-19T00:00:00Z'; // 12 AM (UTC)
+    const notExpectedValue = '2020-03-19T00:00:00.000Z'; // 12 AM (UTC) with miliseconds
 
     // Act
     const data = createRewardsFor7Days(iso8061Format);
