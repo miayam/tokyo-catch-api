@@ -32,6 +32,7 @@ describe('createRewardsFor7Days', () => {
     // Arrange
     const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM GMT
     const expectedValue = '2020-03-19T00:00:00Z'; // 12 AM GMT
+    const notExpectedValue = '2020-03-19T00:00:00.000Z'; // 12 AM GMT with miliseconds
 
     // Act
     const data = createRewardsFor7Days(iso8061Format);
@@ -39,6 +40,7 @@ describe('createRewardsFor7Days', () => {
 
     // Assert
     expect(firstReward.availableAt).toBe(expectedValue);
+    expect(firstReward.availableAt).not.toBe(notExpectedValue);
   });
 
   it("should not create rewards if parameter is not a valid date string format", () => {
