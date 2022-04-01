@@ -15,7 +15,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    user gets error when accessing /users/:userId/rewards
+    user gets error message when accessing /users/:userId/rewards
     for the first time without proper query param ?at=
   `, async () => {
     await request(app)
@@ -25,7 +25,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    user gets error when accessing /users/:userId/rewards
+    user gets error message when accessing /users/:userId/rewards
     for the first time with invalid query param ?at=
   `, async () => {
     await request(app)

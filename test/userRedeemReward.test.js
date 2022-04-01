@@ -3,8 +3,8 @@ const app = require('../app');
 
 describe('User redeems a reward', () => {
   test(`
-    user gets error message when users redeem
-    a reward they don't have
+    user gets error message when he tries to redeem
+    a reward he/she doesn't actually have
   `, async () => {
     // Arrange
     const iso8061Format = '2020-03-19T12:00:00Z';
