@@ -28,6 +28,19 @@ describe('createRewardsFor7Days', () => {
     expect(hour).toBe(atMidnight);
   });
 
+  it("should start at midnight but without miliseconds if ISO 8061 format passed down", () => {
+    // Arrange
+    const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM GMT
+    const expectedValue = '2020-03-19T00:00:00Z'; // 12 AM GMT
+
+    // Act
+    const data = createRewardsFor7Days(iso8061Format);
+    const firstReward = data[0];
+
+    // Assert
+    expect(firstReward.availableAt).toBe(expectedValue);
+  });
+
   it("should not create rewards if parameter is not a valid date string format", () => {
     // Arrange
     const undefinedValue = undefined;

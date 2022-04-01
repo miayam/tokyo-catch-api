@@ -4,7 +4,8 @@
   "description": "Boring API to redeem rewards for Tokyo Catch",
   "main": "app.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node app"
   },
   "keywords": [
     "express",

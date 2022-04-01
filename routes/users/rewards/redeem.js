@@ -15,7 +15,7 @@ router.patch('/', async (req, res) => {
   const hasCacheAndRewardFound = hasCache && rewardFound; 
 
   if (noCache || hasCacheButRewardNotFound) {
-    res.json({
+    res.status(422).json({
       error: {
         message: "You cannot redeem a reward you don't have"
       }
@@ -40,11 +40,11 @@ router.patch('/', async (req, res) => {
 
     cache.set(key, newData);
 
-    res.json({ data: newData[index] });
+    res.status(200).json({ data: newData[index] });
   }
 
   if (hasCacheAndRewardFound && notAvailableYet) {
-    res.json({
+    res.status(422).json({
       error: {
         message: "This reward is not available yet"
       }
@@ -52,7 +52,7 @@ router.patch('/', async (req, res) => {
   }
 
   if (hasCacheAndRewardFound && hasExpired) {
-    res.json({
+    res.status(422).json({
       error: {
         message: "This reward is already expired"
       }

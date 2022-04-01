@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
   if (hasCacheWithInvalidDate || hasCacheWithSameValidDate) {
     console.log('Get rewards from cache...');
     const key = cache.get(userId);
-    res.json({ data: cache.get(key) });
+    res.status(200).json({ data: cache.get(key) });
   }
   
   // Need to renew rewards for certain `userId` or just create new one.
@@ -41,11 +41,11 @@ router.get('/', async (req, res) => {
     const key = `${userId}-at-${iso8061Format}`; 
     cache.set(userId, key);
     cache.set(key, data);
-    res.json({ data });
+    res.status(200).json({ data });
   }
 
   if (noCacheAndHasInvalidDate) {
-    res.json({
+    res.status(422).json({
       error: {
         message: "You don't have any rewards"
       }

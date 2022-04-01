@@ -14,17 +14,18 @@ const createRewardsFor7Days = (isoString) => {
 
   // Start at midnight (00:00:00.000).
   date.setUTCHours(0, 0, 0, 0);
+  
 
   const data = [...Array(7)]
     .map(() => {
       return {
-        availableAt: date.toISOString(),
+        availableAt: date.toISOString().replace(/[.]\d+/, ''), // Remove miliseconds
         redeemedAt: null,
         expiresAt: new Date(
           date.setUTCDate(
             date.getUTCDate() + 1
           )
-        ).toISOString(),
+        ).toISOString().replace(/[.]\d+/, ''), // Remove miliseconds
       }
     });
   
