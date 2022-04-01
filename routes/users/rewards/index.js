@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
   const noDate = !hasDate; // `query.at` is undefined or null
   const invalidDate = noDate || !isValidDate(iso8061Format);
   const validDate = hasDate && isValidDate(iso8061Format);
-  const cachedIso8061Format = cache.get(userId).replace(`${userId}-at-`, '');
+  const cachedIso8061Format = cache.get(userId) ? cache.get(userId).replace(`${userId}-at-`, '') : null;
   const sameDate = iso8061Format === cachedIso8061Format;
   const differentDate = iso8061Format !== cachedIso8061Format;
 

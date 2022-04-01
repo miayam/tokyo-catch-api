@@ -27,6 +27,7 @@ router.patch('/', async (req, res) => {
   const nowTime = new Date().getTime();
   const notAvailableYet = nowTime < availableTime;
   const hasExpired = nowTime > expiredTime;
+  const canBeRedeemed = !notAvailableYet && !hasExpired;
   
   if (hasCacheAndRewardFound && canBeRedeemed) {
     const newData = [...data];
