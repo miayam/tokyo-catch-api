@@ -3,7 +3,7 @@ const app = require('../app');
 
 describe('Users create new rewards or get rewards from cache', () => {
   test(`
-    users get userId when accessing /users/:userId
+    users get userId when they GET /users/:userId
   `, async () => {
     await request(app)
       .get('/users/1')
