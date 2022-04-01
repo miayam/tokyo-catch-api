@@ -3,8 +3,9 @@ const app = require('../app');
 
 describe('User redeems a reward', () => {
   test(`
-    user gets error message when he/she tries to redeem
-    a reward he/she doesn't actually have
+    users get error message when they try to redeem
+    a reward they don't deserve.
+    PATCH /users/:userId/rewards/:rewardId/redeem
   `, async () => {
     // Arrange
     const iso8061Format = '2020-03-19T12:00:00Z';
@@ -17,9 +18,9 @@ describe('User redeems a reward', () => {
   });
 
   test(`
-    user redeems a reward with valid parameter when it's
-    still available and not expired
-    /users/:userId/rewards/:rewardId/redeem
+    users redeem a reward with valid parameter as long as
+    the reward is still available and has yet to be expired.
+    PATCH /users/:userId/rewards/:rewardId/redeem
   `, async () => {
     // Arrange
     const date = new Date();
@@ -44,7 +45,7 @@ describe('User redeems a reward', () => {
     const redeemId = reward.availableAt;
     const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
 
-    // User can redeem a reward because it was created a couple of seconds ago
+    // Users can redeem a reward because it was created a couple of seconds ago
     // and 100% available to be redeemed and 100% not expired.
     await request(app)
       .patch(redeemUrl)
@@ -57,13 +58,13 @@ describe('User redeems a reward', () => {
   });
 
   test(`
-    user redeems a reward with valid parameter but it's
-    not available yet
-    /users/:userId/rewards/:rewardId/redeem
+    users redeem a reward with valid parameter but it's
+    not available yet.
+    PATCH /users/:userId/rewards/:rewardId/redeem
   `, async () => {
     // Arrange
     const date = new Date();
-    date.setUTCDate(date.getUTCDate() + 100); // 100 days from today.
+    date.setUTCDate(date.getUTCDate() + 100); // 100 days into the future.
     const iso8061Format = date.toISOString();
     const url = `/users/2/rewards?at=${iso8061Format}`;
 
@@ -82,7 +83,7 @@ describe('User redeems a reward', () => {
     const redeemId = reward.availableAt;
     const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
 
-    // We cannot redeem a reward that's not available yet. Must redeem the reward 100 days later.
+    // Users cannot redeem a reward that's not available yet. Must redeem the reward 100 days later.
     await request(app)
       .patch(redeemUrl)
       .expect("Content-Type", /json/)
@@ -93,9 +94,9 @@ describe('User redeems a reward', () => {
   });
 
   test(`
-    user tries to redeem a reward with valid parameter but it's
-    been expired and the reward cannot be redeemed
-    /users/:userId/rewards/:rewardId/redeem
+    users try to redeem a reward with valid parameter but it's
+    been expired and the reward cannot be redeemed.
+    PATCH /users/:userId/rewards/:rewardId/redeem
   `, async () => {
     // Arrange
     const iso8061Format = '1945-08-17T00:00:00Z'; // The reward was created at the very own Indonesian independence date.
@@ -116,7 +117,7 @@ describe('User redeems a reward', () => {
     const redeemId = firstReward.availableAt;
     const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
 
-    // We cannot redeem a reward that's been expired long ago (Fri Aug 17 1945)
+    // Users cannot redeem a reward that's been expired a long time ago (Fri Aug 17 1945)
     await request(app)
       .patch(redeemUrl)
       .expect("Content-Type", /json/)

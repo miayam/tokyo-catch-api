@@ -1,9 +1,9 @@
 const request = require('supertest');
 const app = require('../app');
 
-describe('User create new rewards or get rewards from cache', () => {
+describe('Users create new rewards or get rewards from cache', () => {
   test(`
-    user gets userId when accessing /users/:userId
+    users get userId when accessing /users/:userId
   `, async () => {
     await request(app)
       .get('/users/1')
@@ -15,7 +15,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    user gets error message when accessing /users/:userId/rewards
+    users get error message when they GET /users/:userId/rewards
     for the first time without proper query param ?at=
   `, async () => {
     await request(app)
@@ -25,7 +25,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    user gets error message when accessing /users/:userId/rewards
+    users get error message when they GET /users/:userId/rewards
     for the first time with invalid query param ?at=
   `, async () => {
     await request(app)
@@ -35,7 +35,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    user gets weekly rewards (7 days) when accessing /users/:userId/rewards
+    users get weekly rewards (7 days) when they GET /users/:userId/rewards
     for the first time with valid query param ?at=
   `, async () => {
     // Arrange
@@ -95,9 +95,9 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    user gets weekly rewards (7 days) when accessing /users/:userId/rewards
-    stored in cache as long as the query param ?at= is the same before or
-    query param ?at= not provided 
+    users get weekly rewards (7 days) when they GET /users/:userId/rewards
+    stored in cache as long as the query param ?at= is the same as before or
+    query param ?at= undefined 
   `, async () => {
     // Arrange
     const iso8061Format = '2020-03-20T12:00:00Z';
@@ -113,7 +113,7 @@ describe('User create new rewards or get rewards from cache', () => {
         expect(res.get('from-cache')).toBe('no'); // Create new rewards
       });
 
-    // Request endpoint for the second time with the same query param ?at= expecting data stored in cache.
+    // Request endpoint for the 2nd time with the same query param ?at= expecting data stored in cache.
     await request(app)
       .get(rewardsURL) // ?at is provided
       .expect("Content-Type", /json/)
@@ -123,7 +123,7 @@ describe('User create new rewards or get rewards from cache', () => {
         expect(res.get('from-cache')).toBe('yes'); // Get rewards from cache
       });
 
-    // Request endpoint without query param ?at= for the third time expecting data stored in cache.
+    // Request endpoint without query param ?at= for the 3rd time expecting data stored in cache.
     await request(app)
       .get('/users/1/rewards') // ?at is not provided
       .expect("Content-Type", /json/)
