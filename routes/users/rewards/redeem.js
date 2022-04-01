@@ -22,8 +22,8 @@ router.patch('/', async (req, res) => {
     });
   }
 
-  const availableTime = new Date(data[index].availableAt).getTime();
-  const expiredTime = new Date(data[index].expiresAt).getTime();
+  const availableTime = data[index] ? new Date(data[index].availableAt).getTime() : 0;
+  const expiredTime = data[index] ? new Date(data[index].expiresAt).getTime() : 0;
   const nowTime = new Date().getTime();
   const notAvailableYet = nowTime < availableTime;
   const hasExpired = nowTime > expiredTime;

@@ -13,7 +13,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   it(`
-    gets error when accessing /users/:userId/rewards
+    sends error when accessing /users/:userId/rewards
     for the first time without ?at=
   `, async () => {
     await request(app)
@@ -23,7 +23,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   it(`
-    gets error when accessing /users/:userId/rewards
+    sends error when accessing /users/:userId/rewards
     for the first time with invalid ?at=
   `, async () => {
     await request(app)
@@ -33,7 +33,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   it(`
-    gets rewards data when accessing /users/:userId/rewards
+    sends rewards for 7 days when accessing /users/:userId/rewards
     for the first time with valid ?at=
   `, async () => {
     // Arrange
@@ -51,7 +51,7 @@ describe('User create new rewards or get rewards from cache', () => {
   });
 
   it(`
-    gets rewards data when accessing /users/:userId/rewards
+    sends rewards for 7 days when accessing /users/:userId/rewards
     without ?at for the second time because it has been
     cached by server
   `, async () => {
