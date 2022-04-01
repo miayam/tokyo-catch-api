@@ -31,7 +31,7 @@ Hit `localhost:3000` to see the result.
 
 Here's the available endpoints:
 - **GET** `localhost:3000/users/:userId`.
-- **GET** `localhost:3000/users/:userId/rewards`.
+- **GET** `localhost:3000/users/:userId/rewards?at={ISO 8061 data-string format}`.
 - **PATCH** `localhost:3000/users/:userId/rewards/:rewardId/redeem`.
 
 To test them all, run this command:
