@@ -2,7 +2,10 @@ const request = require('supertest');
 const app = require('../app');
 
 describe('User redeems a reward', () => {
-  it(`sends errors when users redeem a reward they don't have`, async () => {
+  test(`
+    user gets error message when users redeem
+    a reward they don't have
+  `, async () => {
     // Arrange
     const iso8061Format = '2020-03-19T12:00:00Z';
     const url = `/users/2/rewards/${iso8061Format}/redeem`;
@@ -13,8 +16,8 @@ describe('User redeems a reward', () => {
       .expect(422);
   });
 
-  it(`
-    redeems a reward with valid parameter when it's
+  test(`
+    user redeems a reward with valid parameter when it's
     still available and not expired
     /users/:userId/rewards/:rewardId/redeem
   `, async () => {
@@ -50,8 +53,8 @@ describe('User redeems a reward', () => {
       });
   });
 
-  it(`
-    redeems a reward with valid parameter but it's
+  test(`
+    user redeems a reward with valid parameter but it's
     not available yet
     /users/:userId/rewards/:rewardId/redeem
   `, async () => {
@@ -85,8 +88,8 @@ describe('User redeems a reward', () => {
       });
   });
 
-  it(`
-    tries to redeem a reward with valid parameter but it's
+  test(`
+    user tries to redeem a reward with valid parameter but it's
     been expired and the reward cannot be redeemed
     /users/:userId/rewards/:rewardId/redeem
   `, async () => {
