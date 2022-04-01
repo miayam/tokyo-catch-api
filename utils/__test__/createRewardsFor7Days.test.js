@@ -15,7 +15,7 @@ describe('createRewardsFor7Days', () => {
 
   it("should start at midnight if ISO 8061 format passed down", () => {
     // Arrange
-    const iso8061Format = '2020-03-19T12:00:00Z';
+    const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM GMT
     const atMidnight = 0; // at midnight
 
     // Act
