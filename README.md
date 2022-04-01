@@ -30,9 +30,9 @@ $ npm run start
 Hit `localhost:3000` to see the result.
 
 Here's the available endpoints:
-- GET `localhost:3000/users/:userId`.
-- GET `localhost:3000/users/:userId/rewards`.
-- PATCH `localhost:3000/users/:userId/rewards/:rewardId/redeem`.
+- **GET** `localhost:3000/users/:userId`.
+- **GET** `localhost:3000/users/:userId/rewards`.
+- **PATCH** `localhost:3000/users/:userId/rewards/:rewardId/redeem`.
 
 To test them all, run this command:
 
