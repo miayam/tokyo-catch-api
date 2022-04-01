@@ -2,7 +2,7 @@
   "name": "tokyo-catch-api",
   "version": "1.0.0",
   "description": "Boring API to redeem rewards for Tokyo Catch",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
     "start": "node index"

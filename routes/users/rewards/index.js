@@ -31,6 +31,8 @@ router.get('/', async (req, res) => {
   if (hasCacheWithInvalidDate || hasCacheWithSameValidDate) {
     console.log('Get rewards from cache...');
     const key = cache.get(userId);
+    res.set('from-cache', 'yes');
+    res.set('Access-Control-Expose-Headers', 'from-cache');
     res.status(200).json({ data: cache.get(key) });
   }
   
@@ -41,6 +43,8 @@ router.get('/', async (req, res) => {
     const key = `${userId}-at-${iso8061Format}`; 
     cache.set(userId, key);
     cache.set(key, data);
+    res.set('from-cache', 'no');
+    res.set('Access-Control-Expose-Headers', 'from-cache');
     res.status(200).json({ data });
   }
 
