@@ -1,5 +1,5 @@
 # Tokyo Catch API
-### The boring mock API to redeem weekly rewards
+The boring mock API to redeem weekly rewards
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -30,7 +30,7 @@ $ npm run start
 To test them all, run this command:
 
 ```sh
-$ npm run start
+$ npm run test
 ```
 
 ## Special Thanks
