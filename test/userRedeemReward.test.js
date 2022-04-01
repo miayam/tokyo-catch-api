@@ -3,7 +3,7 @@ const app = require('../app');
 
 describe('User redeems a reward', () => {
   test(`
-    user gets error message when he tries to redeem
+    user gets error message when he/she tries to redeem
     a reward he/she doesn't actually have
   `, async () => {
     // Arrange
@@ -22,8 +22,8 @@ describe('User redeems a reward', () => {
     /users/:userId/rewards/:rewardId/redeem
   `, async () => {
     // Arrange
-    const now = new Date();
-    const iso8061Format = now.toISOString();
+    const date = new Date();
+    const iso8061Format = date.toISOString();
     const url = `/users/2/rewards?at=${iso8061Format}`;
 
     // Create rewards first
@@ -36,9 +36,12 @@ describe('User redeems a reward', () => {
       });
     
     // Arrange
+    date.setUTCHours(0, 0, 0, 0); // To get today's reward ID, we must starts date at midnight.
     const myRewards = rewardsResponse.body.data;
-    const firstReward = myRewards[0];
-    const redeemId = firstReward.availableAt;
+    const todayISOString = date.toISOString().replace(/[.]\d+/, ''); // Remove miliseconds.
+    const index = myRewards.findIndex((reward) => reward.availableAt === todayISOString);
+    const reward = myRewards[index];
+    const redeemId = reward.availableAt;
     const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
 
     // Redeem the first reward because it was created a couple of seconds ago
@@ -59,8 +62,9 @@ describe('User redeems a reward', () => {
     /users/:userId/rewards/:rewardId/redeem
   `, async () => {
     // Arrange
-    const now = new Date();
-    const iso8061Format = now.toISOString();
+    const date = new Date();
+    date.setUTCDate(date.getUTCDate() + 100); // 100 days from today.
+    const iso8061Format = date.toISOString();
     const url = `/users/2/rewards?at=${iso8061Format}`;
 
     // Create rewards first
@@ -74,11 +78,11 @@ describe('User redeems a reward', () => {
     
     // Arrange
     const myRewards = rewardsResponse.body.data;
-    const secondReward = myRewards[1]; // Tomorrow
-    const redeemId = secondReward.availableAt;
+    const reward = myRewards[0];
+    const redeemId = reward.availableAt;
     const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
 
-    // We cannot redeem a reward that's not available today
+    // We cannot redeem a reward that's not available yet. Must redeem the reward 100 days later.
     await request(app)
       .patch(redeemUrl)
       .expect("Content-Type", /json/)

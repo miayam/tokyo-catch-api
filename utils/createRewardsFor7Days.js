@@ -14,7 +14,6 @@ const createRewardsFor7Days = (isoString) => {
 
   // Start at midnight (00:00:00.000).
   date.setUTCHours(0, 0, 0, 0);
-  
 
   const data = [...Array(7)]
     .map(() => {
@@ -28,7 +27,7 @@ const createRewardsFor7Days = (isoString) => {
         ).toISOString().replace(/[.]\d+/, ''), // Remove miliseconds
       }
     });
-  
+
   return data;
 };
 

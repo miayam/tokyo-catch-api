@@ -41,15 +41,29 @@ describe('User create new rewards or get rewards from cache', () => {
     // Arrange
     const iso8061Format = '2020-03-19T12:00:00Z';
     const url = `/users/1/rewards?at=${iso8061Format}`;
+    const expectedDataForm = {
+      "data": [
+        { "availableAt": "2020-03-15T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-16T00:00:00Z" },
+        { "availableAt": "2020-03-16T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-17T00:00:00Z" },
+        { "availableAt": "2020-03-17T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-18T00:00:00Z" },
+        { "availableAt": "2020-03-18T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-19T00:00:00Z" },
+        { "availableAt": "2020-03-19T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-20T00:00:00Z" },
+        { "availableAt": "2020-03-20T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-21T00:00:00Z" },
+        { "availableAt": "2020-03-21T00:00:00Z", "redeemedAt": null, "expiresAt": "2020-03-22T00:00:00Z" }
+      ]
+    }; 
 
     // Act and assert
-    await request(app)
+    const rewardsResponse = await request(app)
       .get(url) // ?at is provided
       .expect("Content-Type", /json/)
       .expect(200)
       .expect((res) => {
         expect(res.body.data.length).toBe(7);
       });
+
+    const { data } = rewardsResponse.body;
+
   });
 
   test(`
