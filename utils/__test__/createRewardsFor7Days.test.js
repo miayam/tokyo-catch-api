@@ -13,6 +13,52 @@ describe('createRewardsFor7Days', () => {
     expect(createRewardsFor7Days(dateString).length).toBe(7);
   });
 
+  it("should create rewards with expected data", () => {
+    const iso8061Format = '2020-03-20T12:00:00Z'; // Friday (2020-03-20 not a first index)
+    const expectedRewardsData = [
+      {
+        availableAt: "2020-03-15T00:00:00Z", // Sunday
+        redeemedAt: null,
+        expiresAt: "2020-03-16T00:00:00Z"
+      }, 
+      {
+        availableAt: "2020-03-16T00:00:00Z", // Monday
+        redeemedAt: null,
+        expiresAt: "2020-03-17T00:00:00Z"
+      },
+      {
+        availableAt: "2020-03-17T00:00:00Z", // Tuesday
+        redeemedAt: null,
+        expiresAt: "2020-03-18T00:00:00Z"
+      },
+      {
+        availableAt: "2020-03-18T00:00:00Z", // Wednesday
+        redeemedAt: null,
+        expiresAt: "2020-03-19T00:00:00Z"
+      },
+      {
+        availableAt: "2020-03-19T00:00:00Z", // Thursday
+        redeemedAt: null,
+        expiresAt: "2020-03-20T00:00:00Z"
+      }, 
+      {
+        availableAt: "2020-03-20T00:00:00Z", // Friday (2020-03-20 not a first index)
+        redeemedAt: null,
+        expiresAt: "2020-03-21T00:00:00Z"
+      },
+      {
+        availableAt: "2020-03-21T00:00:00Z", // Saturday
+        redeemedAt: null,
+        expiresAt: "2020-03-22T00:00:00Z"
+      }
+    ];
+
+    const myRewards = createRewardsFor7Days(iso8061Format);
+
+    expect(myRewards.length).toBe(7);
+    expect(JSON.stringify(myRewards)).toBe(JSON.stringify(expectedRewardsData));
+  });
+
   it("should start at midnight if ISO 8061 format passed down", () => {
     // Arrange
     const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM (UTC)
@@ -39,11 +85,12 @@ describe('createRewardsFor7Days', () => {
 
     // Act
     const data = createRewardsFor7Days(iso8061Format);
-    const firstReward = data[0];
+    const index = data.findIndex(reward => reward.availableAt === expectedValue);
+    const reward = data[index];
 
     // Assert
-    expect(firstReward.availableAt).toBe(expectedValue);
-    expect(firstReward.availableAt).not.toBe(notExpectedValue);
+    expect(reward.availableAt).toBe(expectedValue);
+    expect(reward.availableAt).not.toBe(notExpectedValue);
   });
 
   it("should not create rewards if parameter is not a valid date string format", () => {

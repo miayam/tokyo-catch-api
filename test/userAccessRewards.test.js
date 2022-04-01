@@ -39,22 +39,51 @@ describe('User create new rewards or get rewards from cache', () => {
     for the first time with valid query param ?at=
   `, async () => {
     // Arrange
-    const iso8061Format = '2020-03-19T12:00:00Z'; // Thursday at 12 PM (UTC)
+    const iso8061Format = '2020-03-19T12:00:00Z'; // Thursday (2020-03-19 not a first index)
     const url = `/users/1/rewards?at=${iso8061Format}`;
-    // const expectedDataForm = {
-    //   data: [
-    //     { availableAt: "2020-03-15T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-16T00:00:00Z" }, // Sunday
-    //     { availableAt: "2020-03-16T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-17T00:00:00Z" }, // Monday
-    //     { availableAt: "2020-03-17T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-18T00:00:00Z" }, // Tuesday
-    //     { availableAt: "2020-03-18T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-19T00:00:00Z" }, // Wednesday
-    //     { availableAt: "2020-03-19T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-20T00:00:00Z" }, // Thursday
-    //     { availableAt: "2020-03-20T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-21T00:00:00Z" }, // Friday
-    //     { availableAt: "2020-03-21T00:00:00Z", redeemedAt: null, expiresAt: "2020-03-22T00:00:00Z" }  // Saturday
-    //   ]
-    // }; 
+
+    const expectedResponseBody = {
+      data: [
+        {
+          availableAt: "2020-03-15T00:00:00Z", // Sunday
+          redeemedAt: null,
+          expiresAt: "2020-03-16T00:00:00Z"
+        }, 
+        {
+          availableAt: "2020-03-16T00:00:00Z", // Monday
+          redeemedAt: null,
+          expiresAt: "2020-03-17T00:00:00Z"
+        },
+        {
+          availableAt: "2020-03-17T00:00:00Z", // Tuesday
+          redeemedAt: null,
+          expiresAt: "2020-03-18T00:00:00Z"
+        },
+        {
+          availableAt: "2020-03-18T00:00:00Z", // Wednesday
+          redeemedAt: null,
+          expiresAt: "2020-03-19T00:00:00Z"
+        },
+        {
+          availableAt: "2020-03-19T00:00:00Z", // Thursday (2020-03-19 not a first index)
+          redeemedAt: null,
+          expiresAt: "2020-03-20T00:00:00Z"
+        }, 
+        {
+          availableAt: "2020-03-20T00:00:00Z", // Friday
+          redeemedAt: null,
+          expiresAt: "2020-03-21T00:00:00Z"
+        },
+        {
+          availableAt: "2020-03-21T00:00:00Z", // Saturday
+          redeemedAt: null,
+          expiresAt: "2020-03-22T00:00:00Z"
+        }
+      ]
+    }; 
 
     // Act and assert
-    await request(app)
+    const response = await request(app)
       .get(url) // ?at is provided
       .expect("Content-Type", /json/)
       .expect(200)
@@ -62,9 +91,7 @@ describe('User create new rewards or get rewards from cache', () => {
         expect(res.body.data.length).toBe(7);
       });
 
-    // const { data } = rewardsResponse.body;
-
-    // expect(JSON.stringify(data)).toBe(JSON.stringify(expectedDataForm));
+    expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedResponseBody));
   });
 
   test(`
