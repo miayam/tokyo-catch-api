@@ -16,7 +16,7 @@ describe('Users create new rewards or get rewards from cache', () => {
 
   test(`
     users get error message when they GET /users/:userId/rewards
-    for the first time without proper query param ?at=
+    for the first time without query param ?at=
   `, async () => {
     await request(app)
       .get('/users/1/rewards') // ?at is not provided
