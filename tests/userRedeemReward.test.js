@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 
-describe('User redeems a reward', () => {
+describe('Users redeem a reward', () => {
   test(`
     users get error message when they try to redeem
     a reward they don't deserve.
