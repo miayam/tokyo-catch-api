@@ -1,7 +1,7 @@
 const createRewardsFor7Days = require('../createRewardsFor7Days');
 
 describe('createRewardsFor7Days', () => {
-  it("should create rewards if parameter is a valid date string format", () => {
+  it("should create rewards if a parameter passed down is valid format", () => {
     // Arrange
     const now = new Date();
     const iso8061Format = '2020-03-19T12:00:00Z';
@@ -13,7 +13,7 @@ describe('createRewardsFor7Days', () => {
     expect(createRewardsFor7Days(dateString).length).toBe(7);
   });
 
-  it("should create rewards with expected data", () => {
+  it("should create rewards with expected data form", () => {
     const iso8061Format = '2020-03-20T12:00:00Z'; // Friday (2020-03-20 not a first index)
     const expectedRewardsData = [
       {
@@ -63,7 +63,7 @@ describe('createRewardsFor7Days', () => {
     // Arrange
     const iso8061Format = '2020-03-19T12:00:00Z'; // 12 PM (UTC)
     const expectedValue = '2020-03-19T00:00:00Z'; // 12 AM (UTC)
-    const atMidnight = 0; // at midnight
+    const atMidnight = 0; // date.getUTCHours() === 0 means the date is at midnight
 
     // Act
     const data = createRewardsFor7Days(iso8061Format);
@@ -93,7 +93,7 @@ describe('createRewardsFor7Days', () => {
     expect(reward.availableAt).not.toBe(notExpectedValue);
   });
 
-  it("should not create rewards if parameter is not a valid date string format", () => {
+  it("should not create rewards if parameter is not valid date string format", () => {
     // Arrange
     const undefinedValue = undefined;
     const randomString = "fa fi fu was wes wos";
