@@ -35,7 +35,7 @@ describe('Users create new rewards or get rewards from cache', () => {
   });
 
   test(`
-    users get weekly rewards (7 days) when they GET /users/:userId/rewards
+    users create new weekly rewards (7 days) when they GET /users/:userId/rewards
     for the first time with valid query param ?at=
   `, async () => {
     // Arrange
@@ -89,6 +89,7 @@ describe('Users create new rewards or get rewards from cache', () => {
       .expect(200)
       .expect((res) => {
         expect(res.body.data.length).toBe(7);
+        expect(res.get('from-cache')).toBe('no'); // Create new rewards
       });
 
     expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedResponseBody));
