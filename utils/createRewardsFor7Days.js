@@ -2,7 +2,7 @@ const isValidDate = require('./isValidDate');
 
 /**
  * 7 days of rewards for our repeat customers
- * @param {string} isoString - ISO 8061 date format
+ * @param {string} isoString - ISO 8061 date format is expected but could be any string
  * @returns {Object[]} Array of rewards object stored in node-cache 
  */
 const createRewardsFor7Days = (isoString) => {
