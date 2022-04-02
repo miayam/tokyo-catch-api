@@ -83,7 +83,7 @@ describe('Users redeem a reward', () => {
     const rewardId = reward.availableAt;
     const redeemUrl = `/users/2/rewards/${rewardId}/redeem`;
 
-    // Users cannot redeem a reward that's not available yet. Must redeem the reward 100 days later.
+    // Users cannot redeem a reward that's not available yet. Must redeem that reward 100 days later.
     await request(app)
       .patch(redeemUrl)
       .expect("Content-Type", /json/)
@@ -99,7 +99,7 @@ describe('Users redeem a reward', () => {
     PATCH /users/:userId/rewards/:rewardId/redeem
   `, async () => {
     // Arrange
-    const iso8061Format = '1945-08-17T00:00:00Z'; // The reward was created at the very own Indonesian independence date.
+    const iso8061Format = '1945-08-17T00:00:00Z'; // At the very own Indonesian independence date.
     const url = `/users/2/rewards?at=${iso8061Format}`;
 
     // Create rewards first
