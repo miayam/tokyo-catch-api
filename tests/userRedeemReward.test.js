@@ -114,8 +114,8 @@ describe('Users redeem a reward', () => {
     // Arrange
     const myRewards = rewardsResponse.body.data;
     const firstReward = myRewards[0];
-    const redeemId = firstReward.availableAt;
-    const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
+    const rewardId = firstReward.availableAt;
+    const redeemUrl = `/users/2/rewards/${rewardId}/redeem`;
 
     // Users cannot redeem a reward that's been expired a long time ago (Fri Aug 17 1945)
     await request(app)
