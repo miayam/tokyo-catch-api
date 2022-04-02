@@ -42,8 +42,8 @@ describe('Users redeem a reward', () => {
     const todayISOString = date.toISOString().replace(/[.]\d+/, ''); // Remove miliseconds.
     const index = myRewards.findIndex((reward) => reward.availableAt === todayISOString);
     const reward = myRewards[index];
-    const redeemId = reward.availableAt;
-    const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
+    const rewardId = reward.availableAt;
+    const redeemUrl = `/users/2/rewards/${rewardId}/redeem`;
 
     // Users can redeem a reward because it was created a couple of seconds ago
     // and 100% available to be redeemed and 100% not expired.
@@ -80,8 +80,8 @@ describe('Users redeem a reward', () => {
     // Arrange
     const myRewards = rewardsResponse.body.data;
     const reward = myRewards[0];
-    const redeemId = reward.availableAt;
-    const redeemUrl = `/users/2/rewards/${redeemId}/redeem`;
+    const rewardId = reward.availableAt;
+    const redeemUrl = `/users/2/rewards/${rewardId}/redeem`;
 
     // Users cannot redeem a reward that's not available yet. Must redeem the reward 100 days later.
     await request(app)
