@@ -38,7 +38,7 @@ router.patch('/', async (req, res) => {
 
     newData[index] = {
       ...newData[index],
-      redeemedAt: now.toISOString()
+      redeemedAt: now.toISOString().replace(/[.]\d+/, ''), // Remove miliseconds
     };
 
     cache.set(key, newData);
