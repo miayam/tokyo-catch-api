@@ -133,4 +133,52 @@ describe('Users create new rewards or get rewards from cache', () => {
         expect(res.get('from-cache')).toBe('yes');
       });
   });
+
+  test(`
+    users create new weekly rewards (7 days) when they GET /users/:userId/rewards
+    if the query param ?at= is different from the first request
+  `, async () => {
+    // Arrange
+    const date = new Date();
+    const forToday = date.toISOString();
+
+    // Act
+    date.setUTCDate(date.getUTCDate() + 1);
+
+    // Arrange
+    const forTomorrow = date.toISOString();
+    const firstRequestURL = `/users/1/rewards?at=${forToday}`;
+    const secondRequestURL = `/users/1/rewards?at=${forTomorrow}`;
+
+    // Request endpoint for the first time.
+    await request(app)
+      .get(firstRequestURL) // ?at is provided
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.data.length).toBe(7); 
+        expect(res.get('from-cache')).toBe('no');
+      });
+
+    // Request endpoint for the 2nd time with different query param ?at= and create new rewards.
+    await request(app)
+      .get(secondRequestURL) // ?at is provided but different from the first request
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.data.length).toBe(7);
+        expect(res.get('from-cache')).toBe('no');
+      });
+
+    // Request endpoint for the 3rd time with the same query param ?at= as the 2nd request
+    // and get rewards from cache.
+    await request(app)
+      .get(secondRequestURL) // ?at is provided and same as the 2nd request
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.data.length).toBe(7);
+        expect(res.get('from-cache')).toBe('yes');
+      });
+  });
 });
