@@ -1,12 +1,15 @@
-const router = require('express').Router();
+// You need to set mergeParams: true on the router,
+// if you want to access params from the parent router
+const router = require('express').Router({ mergeParams: true });
 const redeem = require('./redeem');
 const createRewardsFor7Days = require('../../../utils/createRewardsFor7Days');
 const isValidDate = require('../../../utils/isValidDate');
 
 router.get('/', async (req, res) => {
   // example: ?at=2020-03-19T12:00:00Z
-  const { cache, query, userId } = req;
-  const iso8061Format = query.at;
+  const { cache, query, params } = req;
+  const { userId } = params;
+  const { at: iso8061Format } = query;
 
   // To check cache
   const hasCache = cache.has(userId);
@@ -57,9 +60,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.use('/:rewardId/redeem', async (req, _, next) => {
-  req.rewardId = req.params.rewardId;
-  next();
-}, redeem);
+router.use('/:rewardId/redeem', redeem);
 
 module.exports = router;

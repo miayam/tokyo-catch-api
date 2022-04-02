@@ -1,7 +1,10 @@
-const router = require('express').Router();
+// You need to set mergeParams: true on the router,
+// if you want to access params from the parent router
+const router = require('express').Router({ mergeParams: true });
 
 router.patch('/', async (req, res) => {
-  const { cache, userId, rewardId } = req;
+  const { cache, params } = req;
+  const { userId, rewardId } = params;
 
   const hasCache = cache.has(userId);
   const noCache = !hasCache;
