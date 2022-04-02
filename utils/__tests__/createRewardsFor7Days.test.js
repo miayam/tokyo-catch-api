@@ -1,7 +1,7 @@
 const createRewardsFor7Days = require('../createRewardsFor7Days');
 
 describe('createRewardsFor7Days', () => {
-  it("should create rewards if parameter passed down is valid format", () => {
+  it("should create rewards if parameter passed down is valid date format", () => {
     // Arrange
     const now = new Date();
     const iso8061Format = '2020-03-19T12:00:00Z';
@@ -14,7 +14,7 @@ describe('createRewardsFor7Days', () => {
   });
 
   it("should create rewards with expected data form", () => {
-    const iso8061Format = '2020-03-20T12:00:00Z'; // Friday (2020-03-20 not a first index)
+    const iso8061Format = '2020-03-20T12:00:00Z'; // Friday (2020-03-20 not the first index)
     const expectedRewardsData = [
       {
         availableAt: "2020-03-15T00:00:00Z", // Sunday
@@ -42,7 +42,7 @@ describe('createRewardsFor7Days', () => {
         expiresAt: "2020-03-20T00:00:00Z"
       }, 
       {
-        availableAt: "2020-03-20T00:00:00Z", // Friday (2020-03-20 not a first index)
+        availableAt: "2020-03-20T00:00:00Z", // Friday (2020-03-20 not the first index)
         redeemedAt: null,
         expiresAt: "2020-03-21T00:00:00Z"
       },

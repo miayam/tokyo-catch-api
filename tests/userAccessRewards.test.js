@@ -39,7 +39,7 @@ describe('Users create new rewards or get rewards from cache', () => {
     for the first time with valid query param ?at=
   `, async () => {
     // Arrange
-    const iso8061Format = '2020-03-19T12:00:00Z'; // Thursday (2020-03-19 not a first index)
+    const iso8061Format = '2020-03-19T12:00:00Z'; // Thursday (2020-03-19 not the first index)
     const url = `/users/1/rewards?at=${iso8061Format}`;
 
     const expectedResponseBody = {
@@ -65,7 +65,7 @@ describe('Users create new rewards or get rewards from cache', () => {
           expiresAt: "2020-03-19T00:00:00Z"
         },
         {
-          availableAt: "2020-03-19T00:00:00Z", // Thursday (2020-03-19 not a first index)
+          availableAt: "2020-03-19T00:00:00Z", // Thursday (2020-03-19 not the first index)
           redeemedAt: null,
           expiresAt: "2020-03-20T00:00:00Z"
         }, 

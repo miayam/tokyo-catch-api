@@ -1,5 +1,5 @@
 # Tokyo Catch API
-The boring mock API to redeem weekly rewards
+The boring mock API to redeem weekly rewards.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -43,4 +43,4 @@ $ npm run test
 ## Special Thanks
 - [MDN Web Docs](https://developer.mozilla.org/en-US/)
 - [Zell Liew's article](https://css-tricks.com/everything-you-need-to-know-about-date-in-javascript/)
-- [StackOverflow](https://stackoverflow.com/questions/25260818/rest-with-express-js-nested-router)
+- [Stack Overflow](https://stackoverflow.com/questions/25260818/rest-with-express-js-nested-router)
