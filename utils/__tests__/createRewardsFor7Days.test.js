@@ -1,7 +1,7 @@
 const createRewardsFor7Days = require('../createRewardsFor7Days');
 
 describe('createRewardsFor7Days', () => {
-  it("should create rewards if a parameter passed down is valid format", () => {
+  it("should create rewards if parameter passed down is valid format", () => {
     // Arrange
     const now = new Date();
     const iso8061Format = '2020-03-19T12:00:00Z';
@@ -93,7 +93,7 @@ describe('createRewardsFor7Days', () => {
     expect(reward.availableAt).not.toBe(notExpectedValue);
   });
 
-  it("should not create rewards if parameter is not valid date string format", () => {
+  it("should not create rewards if parameter is not valid date format", () => {
     // Arrange
     const undefinedValue = undefined;
     const randomString = "fa fi fu was wes wos";
