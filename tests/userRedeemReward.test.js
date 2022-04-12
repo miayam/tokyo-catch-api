@@ -18,7 +18,7 @@ describe('Users redeem a reward', () => {
   });
 
   test(`
-    users redeem a reward with valid parameter as long as
+    users can redeem a reward with valid parameter as long as
     the reward is still available and has yet to be expired.
     PATCH /users/:userId/rewards/:rewardId/redeem
   `, async () => {
